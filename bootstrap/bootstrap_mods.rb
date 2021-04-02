@@ -1,22 +1,54 @@
+# provides the content for the following files using heredocs:
+# 1. app/assets/stylesheets/application.scss
+# 2. config/webpack/environment.js
+# 3. app/javascript/packs/application.js
 module BootstrapMods
-  def self.webpack_environment_js
-    <<-CODE
-    const { environment } = require('@rails/webpacker')
+  extend self
 
-    const webpack = require('webpack')
+  # public methods
 
-    environment.plugins.append('Provide',
+  # Make bootstrap 5 @next the default version
+  # set USE_BOOTSTRAP_4 in the environment to use version 4
+  def use_bootstrap_v5_next
+    !ENV.key?('USE_BOOTSTRAP_4')
+  end
+
+  def bootstrap_version_name
+    use_bootstrap_v5_next ? "v(5/next)" : "v4"
+  end
+
+  def use_jquery
+    !use_bootstrap_v5_next
+  end
+
+  def application_scss_v1
+    _application_scss_v1
+  end
+
+  def application_scss_v2
+    _application_scss_v2
+  end
+
+  alias application_scss application_scss_v1
+
+  def webpack_environment_js
+    <<~CODE
+      const { environment } = require('@rails/webpacker')
+      const webpack = require('webpack')
+
+      environment.plugins.append('Provide',
         new webpack.ProvidePlugin({
-               Popper: ['popper.js', 'default']
+             #{_webpack_plugins_jquery if use_jquery}
+             Popper: ['popper.js', 'default']
         })
-    )
+      )
 
-    module.exports = environment
+      module.exports = environment
     CODE
   end
 
-  def self.application_js
-    <<-CODE
+  def application_js
+    <<~CODE
       // This file is automatically compiled by Webpack, along with any other files
       // present in this directory. You're encouraged to place your actual application logic in
       // a relevant structure within app/javascript and only use these pack files to reference
@@ -33,15 +65,55 @@ module BootstrapMods
       // import the bootstrap javascript module
       import "bootstrap"
 
+      #{_application_js_include_jquery if use_jquery}
+
       document.addEventListener("tubolinks:load",() => {
-          $('[data-toggle="tooltip"]').tooltip()
-          $('[data-toogle="popover"]').popover()
+         #{use_bootstrap_v5_next ? _turbo_links_load_bs5 : _turbo_links_load_bs4}
       });
     CODE
   end
 
-  def self.application_scss
-    <<-CODE
+  # private methods
+  # NOTE: methods starting with '_' are private
+
+  # NOTE: Bootstrap 4 includes jQuery
+  # NOTE: Bootstrap 5 doesn't doesn't include jQuery
+  # NOTE: Template does not currently support adding jQuery for Bootstrap v5,
+  # if you need jQuery use Bootstrap 4
+  def _webpack_plugins_jquery
+    <<~CODE
+             $: 'jquery',
+             jQuery: 'jquery',
+    CODE
+  end
+
+  def _turbo_links_load_bs4
+    <<~CODE
+      $('[data-toggle="tooltip"]').tooltip()
+      $('[data-toggle="popover"]').popover()
+    CODE
+  end
+
+  def _turbo_links_load_bs5
+    <<~CODE
+      $('[data-bs-toggle="tooltip"]').tooltip()
+      $('[data-bs-toggle="popover"]').popover()
+    CODE
+  end
+
+  def _application_js_include_jquery
+    <<~CODE
+      var jQuery = require('jquery')
+
+      // include jQuery in global and window scope (so you can access it globally)
+      // in your web browser, when you type $('.div'), it is actually refering to global.$('.div')
+      global.$ = global.jQuery = jQuery;
+      window.$ = window.jQuery = jQuery;
+    CODE
+  end
+
+  def _application_scss_v1
+    <<~CODE
       /*
        * This is a manifest file that'll be compiled into application.css, which will include all the files
        * listed below.
@@ -58,108 +130,18 @@ module BootstrapMods
        *= require_self
        */
 
-      @import '../../../node_modules/bootstrap/scss/bootstrap';
+       @import '../../../node_modules/bootstrap/scss/bootstrap';
+       /*@import 'bootstrap';*/
     CODE
   end
 
-  def self.bootstrap_test
-    <<-CODE
-      end
-      <div class="container">
-      <h1>h1. Bootstrap heading</h1>
-      <h2>h2. Bootstrap heading</h2>
-      <h3>h3. Bootstrap heading</h3>
-      <h4>h4. Bootstrap heading</h4>
-      <h5>h5. Bootstrap heading</h5>
-      <h6>h6. Bootstrap heading</h6>
+  def _application_scss_v2
+    <<~CODE
+      // $navbar-default-bg: #312312;
+      // $light-orange: #ff8c00;
+      // $navbar-default-color: $light-orange;
 
-      <h3>
-        Fancy display heading
-        <small class="text-muted">With faded secondary text</small>
-      </h3>
-
-      <h1 class="display-1">Display 1</h1>
-      <h1 class="display-2">Display 2</h1>
-      <h1 class="display-3">Display 3</h1>
-      <h1 class="display-4">Display 4</h1>
-      <h1 class="display-5">Display 5</h1>
-      <h1 class="display-6">Display 6</h1>
-
-      <p>You can use the mark tag to <mark>highlight</mark> text.</p>
-      <p><del>This line of text is meant to be treated as deleted text.</del></p>
-      <p><s>This line of text is meant to be treated as no longer accurate.</s></p>
-      <p><ins>This line of text is meant to be treated as an addition to the document.</ins></p>
-      <p><u>This line of text will render as underlined.</u></p>
-      <p><small>This line of text is meant to be treated as fine print.</small></p>
-      <p><strong>This line rendered as bold text.</strong></p>
-      <p><em>This line rendered as italicized text.</em></p>
-
-      <figure>
-        <blockquote class="blockquote">
-          <p>A well-known quote, contained in a blockquote element.</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-          Someone famous in <cite title="Source Title">Source Title</cite>
-        </figcaption>
-      </figure>
-
-      <button type="button" class="btn btn-primary">Primary</button>
-      <button type="button" class="btn btn-secondary">Secondary</button>
-      <button type="button" class="btn btn-success">Success</button>
-      <button type="button" class="btn btn-danger">Danger</button>
-      <button type="button" class="btn btn-warning">Warning</button>
-      <button type="button" class="btn btn-info">Info</button>
-      <button type="button" class="btn btn-light">Light</button>
-      <button type="button" class="btn btn-dark">Dark</button>
-
-      <button type="button" class="btn btn-link">Link</button>
-
-      <button type="button" class="btn btn-outline-primary">Primary</button>
-      <button type="button" class="btn btn-outline-secondary">Secondary</button>
-      <button type="button" class="btn btn-outline-success">Success</button>
-      <button type="button" class="btn btn-outline-danger">Danger</button>
-      <button type="button" class="btn btn-outline-warning">Warning</button>
-      <button type="button" class="btn btn-outline-info">Info</button>
-      <button type="button" class="btn btn-outline-light">Light</button>
-      <button type="button" class="btn btn-outline-dark">Dark</button>
-
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
-      </div>
+       @import 'bootstrap';
     CODE
   end
 end
