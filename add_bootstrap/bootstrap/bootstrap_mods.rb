@@ -11,6 +11,7 @@ module BootstrapMods
   # set USE_BOOTSTRAP_4 in the environment to use version 4
   def use_bootstrap_v5_next
     !ENV.key?('USE_BOOTSTRAP_4')
+    #$use_bootstrap_5
   end
 
   def bootstrap_version_name
@@ -21,10 +22,12 @@ module BootstrapMods
     !use_bootstrap_v5_next
   end
 
+  # @import '../../../node_modules/bootstrap/scss/bootstrap';
   def application_scss_v1
     _application_scss_v1
   end
 
+  # uses @import 'bootstrap'
   def application_scss_v2
     _application_scss_v2
   end
@@ -130,8 +133,8 @@ module BootstrapMods
        *= require_self
        */
 
-       @import '../../../node_modules/bootstrap/scss/bootstrap';
-       /*@import 'bootstrap';*/
+       @import 'bootstrap/scss/bootstrap'
+       /*@import '../../../node_modules/bootstrap/scss/bootstrap';*/
     CODE
   end
 
@@ -141,7 +144,8 @@ module BootstrapMods
       // $light-orange: #ff8c00;
       // $navbar-default-color: $light-orange;
 
-       @import 'bootstrap';
+      #
+      @import 'bootstrap/scss/bootstrap'
     CODE
   end
 end

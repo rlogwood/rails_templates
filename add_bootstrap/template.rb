@@ -3,6 +3,12 @@ require 'shellwords'
 require_relative 'bootstrap/bootstrap_mods'
 require_relative 'bootstrap/bootstrap_test'
 
+# Make bootstrap 5 @next the default version
+# set USE_BOOTSTRAP_4 in the environment to use version 4
+def use_bootstrap_5
+  !ENV.key?('USE_BOOTSTRAP_4')
+end
+
 if BootstrapMods.use_bootstrap_v5_next
   puts "Using Bootstrap v5 @next"
   puts "** NOT LOADING jQuery **"
