@@ -74,4 +74,4 @@ bin/rails s
 
 ### Visit the Bootstrap Test page
 - check the navbar drop-down, tool tip popups and modal to confirm everything works:
-[http://localhost:3000/bootstrap_test/index](http://localhost:3000/bootstrap_test/index)
+- visit [http://localhost:3000/bootstrap_test/index](http://localhost:3000/bootstrap_test/index)
