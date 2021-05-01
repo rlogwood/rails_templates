@@ -63,17 +63,6 @@ module BootstrapMods
     CODE
   end
 
-  def initialize_tool_tips
-    <<~CODE
-      function initialize_tooltips() {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-      }
-    CODE
-  end
-
   def turbo_links_load_bs5
     <<~CODE
       document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => new Tooltip(element))
