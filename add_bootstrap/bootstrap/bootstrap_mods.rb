@@ -36,6 +36,7 @@ module BootstrapMods
 
       // import the bootstrap javascript module
       import "bootstrap"
+      #{"import {Tooltip, Popover} from 'bootstrap'" if BootstrapConfig.bootstrap_v5?}
 
       #{application_js_include_jquery if BootstrapConfig.use_jquery?}
 
@@ -75,8 +76,8 @@ module BootstrapMods
 
   def turbo_links_load_bs5
     <<~CODE
-      $('[data-bs-toggle="tooltip"]').tooltip()
-      $('[data-bs-toggle="popover"]').popover()
+      document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => new Tooltip(element))
+      document.querySelectorAll('[data-bs-toggle="popover"]').forEach(element => new Popover(element))
     CODE
   end
 

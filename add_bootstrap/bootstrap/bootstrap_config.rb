@@ -24,29 +24,40 @@ class BootstrapConfig < Thor
 
   def self.bootstrap_choice_description
     version = instance.use_bootstrap_v5 ? "v5 @next" : "v4"
-    jquery =  instance.use_jquery ? "will be added" : "is not needed"
+    jquery =  instance.use_jquery ? "will be added (#{instance.use_bootstrap_v5 ? "requested for v5" : "required for v4"})" : "is not needed"
     "\n***\n*** Using Bootstrap #{version}\n*** jQuery #{jquery}\n***\n"
   end
 
   private
 
+  def env_defines_bootstrap_v5?
+    ENV['BOOTSTRAP_VERSION'] == '5'
+  end
+
+  def env_defines_bootstrap_v4?
+    ENV['BOOTSTRAP_VERSION'] == '4'
+  end
+
+  def env_defines_use_jquery?
+    ENV.key?('USE_JQUERY')
+  end
+
+  def env_requests_jquery?
+    ENV['USE_JQUERY'] =~ /y|ye|yes/i
+  end
+
   def use_bootstrap_v5?
-    if ENV.key?('USE_BOOTSTRAP_4')
-      false
-    elsif ENV.key?('USE_BOOTSTRAP_5')
-      true
-    else
-      say("\n***\n*** Default bootstrap is v5 @next (5.0.0-beta3)\n***")
-      !yes?("*** Use bootstrap v4 instead (N/y)?")
-    end
+    return true if env_defines_bootstrap_v5?
+    return false if env_defines_bootstrap_v4?
+
+    say("\n***\n*** Default bootstrap is v5 @next (5.0.0-beta3)\n***")
+    !yes?("*** Use bootstrap v4 instead (N/y)?")
   end
 
   def use_jquery_with_bs5?
-    if ENV.key?('USE_JQUERY')
-      return true
-    end
-    say("***\n*** You've chosen bootstrap 5, jQuery will only be loaded if you request it\n***")
-    yes?("*** Do you want to add jQuery to bootstrap 5 (needed for tool tips) (N/y)?")
-  end
+    return env_requests_jquery? if env_defines_use_jquery?
 
+    say("***\n*** You've chosen bootstrap 5, jQuery will only be loaded if you request it\n***")
+    yes?("*** Do you want to add jQuery to bootstrap 5 (N/y)?")
+  end
 end

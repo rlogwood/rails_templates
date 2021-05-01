@@ -20,51 +20,52 @@ git clone git@github.com:rlogwood/rails_templates.git
 
 ### Configuration Prompts
 
-Bootstrap v5 (@next) is the default version and you'll be ask to confirm:
-
-    ***
+Bootstrap v5 (@next) is the default version and you'll be asked to confirm:
+```
     *** Default bootstrap is v5 @next (5.0.0-beta3)
     ***
     *** Use bootstrap v4 instead (N/y)?
+```
 
-If you're using Bootstrap v5, you'll have the option to load jQuery, which is needed for tooltips:
-
-    ***
-    *** Default bootstrap is v5 @next (5.0.0-beta3)
-    ***
-    *** Use bootstrap v4 instead (N/y)?
-    ***
+If you're using Bootstrap v5, you'll have the option to load jQuery:
+```
     *** You've chosen bootstrap 5, jQuery will only be loaded if you request it
     ***
-    *** Do you want to add jQuery to bootstrap 5 (needed for tool tips) (N/y)?
+    *** Do you want to add jQuery to bootstrap 5 (N/y)?
+```
 
 ### Environment Variables
 You can set environment variables to avoid the prompts.
 
-- To create a bootstrap v4 app without prompts:
+- To create a bootstrap v4 app:
     ```
-    export USE_BOOTSTRAP_4=yes
-    ```
-
-- To create a bootstrap v5 with jQuery without prompts:
-    ```
-    export USE_BOOTSTRAP_5=yes
-    export USE_QUERY=yes
+    export BOOTSTRAP_VERSION=4
     ```
 
-### Create a bootstrap app
+- To create a bootstrap v5 app:
+    ```
+    export BOOTSTRAP_VERSION=5
+    ```
+- For Bootstrap 4,  jQuery is a requirement and automatically added
+
+- For Bootstrap 5,  jQuery may be optionally added:
+    ```
+    export USE_QUERY=yes  # adds jQuery
+    export USE_QUERY=no   # v5 app created without jQuery, no prompts 
+    ```
+
+
+### Run the template to create a bootstrap app
 Add any other options needed. If you don't set environment variables you'll be prompted
 ```
 rails new myapp -m rails_templates/add_bootstrap/template.rb
 ```
 ### Verify the result
 Look for a message at the end of the output indicating the choices you made:
-
-    ***
-    *** Using Bootstrap v5 @next
-    *** jQuery will be added
-    ***
-
+```
+ *** Using Bootstrap v5 @next
+ *** jQuery is not needed
+ ```
 
 ### Test that bootstrap works in your new app
 ```

@@ -27,8 +27,6 @@ def template_updates
   append_to_file 'app/assets/stylesheets/application.scss' do
     BootstrapMods.application_scss
   end
-
-  #file 'app/assets/stylesheets/application.scss', BootstrapMods.application_scss
 end
 
 say(BootstrapConfig.bootstrap_choice_description)
@@ -36,9 +34,6 @@ say(BootstrapConfig.bootstrap_choice_description)
 template_updates
 
 after_bundle do
-  #run 'rm config/webpack/environment.js'
-  #file 'config/webpack/environment.js', BootstrapMods.webpack_environment_js
-
   inject_into_file 'config/webpack/environment.js', after: "const { environment } = require('@rails/webpacker')\n" do
    BootstrapMods.webpack_environment_js
   end
