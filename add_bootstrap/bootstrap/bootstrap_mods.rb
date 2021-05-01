@@ -9,9 +9,10 @@ module BootstrapMods
 
   # Make bootstrap 5 @next the default version
   # set USE_BOOTSTRAP_4 in the environment to use version 4
+  # TODO: implement improved version selection, investigated using template options, but they aren't currently supported
+  #       may convert to use ask
   def use_bootstrap_v5_next
     !ENV.key?('USE_BOOTSTRAP_4')
-    #$use_bootstrap_5
   end
 
   def bootstrap_version_name
@@ -23,16 +24,9 @@ module BootstrapMods
   end
 
   # @import '../../../node_modules/bootstrap/scss/bootstrap';
-  def application_scss_v1
-    _application_scss_v1
+  def application_scss
+    _application_scss
   end
-
-  # uses @import 'bootstrap'
-  def application_scss_v2
-    _application_scss_v2
-  end
-
-  alias application_scss application_scss_v1
 
   def webpack_environment_js
     <<~CODE
@@ -115,7 +109,7 @@ module BootstrapMods
     CODE
   end
 
-  def _application_scss_v1
+  def _application_scss
     <<~CODE
       /*
        * This is a manifest file that'll be compiled into application.css, which will include all the files
@@ -134,18 +128,7 @@ module BootstrapMods
        */
 
        @import 'bootstrap/scss/bootstrap'
-       /*@import '../../../node_modules/bootstrap/scss/bootstrap';*/
     CODE
   end
 
-  def _application_scss_v2
-    <<~CODE
-      // $navbar-default-bg: #312312;
-      // $light-orange: #ff8c00;
-      // $navbar-default-color: $light-orange;
-
-      #
-      @import 'bootstrap/scss/bootstrap'
-    CODE
-  end
 end

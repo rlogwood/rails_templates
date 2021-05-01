@@ -31,7 +31,6 @@ rails new myapp -m rails_templates/add_bootstrap/template.rb
 ### Test that bootstrap works in your new app
 ```
 cd myapp
-bin/rails db:create
 bin/rails s
 ```
 
