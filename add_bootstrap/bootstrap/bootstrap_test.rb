@@ -7,26 +7,26 @@ module BootstrapTest
   def bootstrap_test
     <<~CODE
       <div class="container">
-        <h1>Bootstrap #{BootstrapMods.bootstrap_version_name} Test</h1>
+        <h1>Bootstrap #{BootstrapConfig.bootstrap_version_name} Test</h1>
         <hr/>
-        #{_bootstrap_buttons}
+        #{bootstrap_buttons}
         <hr/>
-        #{_bootstrap_tooltips}
+        #{BootstrapConfig.bootstrap_v5? ? bootstrap_tooltips_v5 : bootstrap_tooltips_v4}
         <hr/>
-        #{BootstrapMods.use_bootstrap_v5_next ? _bootstrap_modal_v5 : _bootstrap_modal_v4}
+        #{BootstrapConfig.bootstrap_v5? ? bootstrap_modal_v5 :  bootstrap_modal_v4}
         <hr/>
-        #{BootstrapMods.use_bootstrap_v5_next ? _bootstrap_navbar_v5 : _bootstrap_navbar_v4}
+        #{BootstrapConfig.bootstrap_v5? ? bootstrap_navbar_v5 : bootstrap_navbar_v4}
         <hr/>
-        #{_bootstrap_alerts}
+        #{bootstrap_alerts}
         <hr/>
-        #{_bootstrap_text}
+        #{bootstrap_text}
       </div>
     CODE
   end
 
-  ## private methods
+  private
 
-  def _bootstrap_tooltips
+  def bootstrap_tooltips_v5
     <<~CODE
       <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
         Tooltip on top
@@ -43,7 +43,24 @@ module BootstrapTest
     CODE
   end
 
-  def _bootstrap_buttons
+  def bootstrap_tooltips_v4
+    <<~CODE 
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+        Tooltip on top
+      </button>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+        Tooltip on right
+      </button>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+        Tooltip on bottom
+      </button>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
+        Tooltip on left
+      </button>
+    CODE
+  end
+
+  def bootstrap_buttons
     <<~CODE
       <div>
         <button type="button" class="btn btn-primary">Primary</button>
@@ -73,7 +90,7 @@ module BootstrapTest
     CODE
   end
 
-  def _bootstrap_text
+  def bootstrap_text
     <<~CODE
       <h1>h1. Bootstrap heading</h1>
       <h2>h2. Bootstrap heading</h2>
@@ -114,7 +131,7 @@ module BootstrapTest
     CODE
   end
 
-  def _bootstrap_modal_v5
+  def bootstrap_modal_v5
     <<~CODE
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -142,7 +159,7 @@ module BootstrapTest
     CODE
   end
 
-  def _bootstrap_modal_v4
+  def bootstrap_modal_v4
     <<~CODE
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -172,7 +189,7 @@ module BootstrapTest
     CODE
   end
 
-  def _bootstrap_navbar_v5
+  def bootstrap_navbar_v5
     <<~CODE
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -213,7 +230,7 @@ module BootstrapTest
     CODE
   end
 
-  def _bootstrap_navbar_v4
+  def bootstrap_navbar_v4
     <<~CODE
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
@@ -253,7 +270,7 @@ module BootstrapTest
     CODE
   end
 
-  def _bootstrap_alerts
+  def bootstrap_alerts
     <<~CODE
       <div class="alert alert-primary" role="alert">
         A simple primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.

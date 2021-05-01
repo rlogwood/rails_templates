@@ -6,6 +6,8 @@
 
 
 ## Add Bootstap
+- Use asset pipeline for CSS
+- Use webpacker for javascript
 
 ### Steps to create new Rails app with Bootstrap 4 or 5
 ```
@@ -16,17 +18,53 @@ git clone https://github.com/rlogwood/rails_templates.git
 git clone git@github.com:rlogwood/rails_templates.git
 ```
 
-### Create bootstrap v5 app, the default
-```
-# add any other options needed
-rails new myapp -m rails_templates/add_bootstrap/template.rb
-```
+### Configuration Prompts
 
-### Create bootstrap v4 app, set USE_BOOTSTRAP_4
+Bootstrap v5 (@next) is the default version and you'll be ask to confirm:
+
+    ***
+    *** Default bootstrap is v5 @next (5.0.0-beta3)
+    ***
+    *** Use bootstrap v4 instead (N/y)?
+
+If you're using Bootstrap v5, you'll have the option to load jQuery, which is needed for tooltips:
+
+    ***
+    *** Default bootstrap is v5 @next (5.0.0-beta3)
+    ***
+    *** Use bootstrap v4 instead (N/y)?
+    ***
+    *** You've chosen bootstrap 5, jQuery will only be loaded if you request it
+    ***
+    *** Do you want to add jQuery to bootstrap 5 (needed for tool tips) (N/y)?
+
+### Environment Variables
+You can set environment variables to avoid the prompts.
+
+- To create a bootstrap v4 app without prompts:
+    ```
+    export USE_BOOTSTRAP_4=yes
+    ```
+
+- To create a bootstrap v5 with jQuery without prompts:
+    ```
+    export USE_BOOTSTRAP_5=yes
+    export USE_QUERY=yes
+    ```
+
+### Create a bootstrap app
+Add any other options needed. If you don't set environment variables you'll be prompted
 ```
-export USE_BOOTSTRAP_4=anything
 rails new myapp -m rails_templates/add_bootstrap/template.rb
 ```
+### Verify the result
+Look for a message at the end of the output indicating the choices you made:
+
+    ***
+    *** Using Bootstrap v5 @next
+    *** jQuery will be added
+    ***
+
 
 ### Test that bootstrap works in your new app
 ```
