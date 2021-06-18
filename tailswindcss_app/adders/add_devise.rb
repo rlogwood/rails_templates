@@ -19,4 +19,6 @@ def add_devise
 
   # We don't use rails_command here to avoid accidentally having RAILS_ENV=development as an attribute
   run "rails generate devise #{model_name} #{attributes}"
+
+  rails_command "generate devise:views"
 end
