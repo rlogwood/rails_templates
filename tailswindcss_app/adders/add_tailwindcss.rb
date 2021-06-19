@@ -5,6 +5,7 @@ def add_tailwindcss
   create_homepage_with_tailwindcss_test
   configure_tailwindcss_application_scss
   run "npx tailwindcss init"
+  create_standard_tailwindcss_config_js_file
 end
 
 private
@@ -36,13 +37,13 @@ def update_babel_config
 
 end
 
+
 def update_postcss_config
   inject_into_file 'postcss.config.js', after: '})' do
     <<~RUBY
       ,
           require('tailwindcss'),
-          require('autoprefixer'),
-          require('@tailwindcss/typography')
+          require('autoprefixer')
     RUBY
   end
 
@@ -87,11 +88,54 @@ def configure_tailwindcss_application_scss
     RUBY
   end
 
+  inject_into_file 'app/views/layouts/application.html.erb', after: '<%= csp_meta_tag %>' do
+    <<-'END_STRING'
+      <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    END_STRING
+  end
+
   gsub_file 'app/views/layouts/application.html.erb', '<%= stylesheet_link_tag ', '<%# stylesheet_link_tag '
 
   inject_into_file 'app/views/layouts/application.html.erb', before: '    <%= javascript_pack_tag' do
     <<-'RUBY'
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     RUBY
+  end
+end
+
+
+def create_standard_tailwindcss_config_js_file
+  create_file('tailwind.config.js',force: true) do
+    <<~'END_STRING'
+      const colors = require('./node_modules/tailwindcss/colors');
+      const defaultTheme = require('tailwindcss/defaultTheme')
+
+      module.exports = {
+        purge: [],
+        darkMode: false, // or 'media' or 'class'
+        theme: {
+          extend: {
+            colors: {
+              rose: colors.rose,
+              fuchsia: colors.fuchsia,
+              indigo: colors.indigo,
+              teal: colors.teal,
+              lime: colors.lime,
+              orange: colors.orange,
+            },
+            fontFamily: {
+              sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+            },
+          },
+        },
+        variants: {
+          extend: {},
+        },
+        plugins: [
+          require('@tailwindcss/typography'),
+          require('@tailwindcss/forms')
+        ],
+      }
+    END_STRING
   end
 end
