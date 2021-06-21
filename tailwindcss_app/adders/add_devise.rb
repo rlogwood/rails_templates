@@ -1,4 +1,4 @@
-
+# frozen_string_literal :true
 
 def do_bundle
   # Custom bundle command ensures dependencies are correctly installed
@@ -21,4 +21,14 @@ def add_devise
   run "rails generate devise #{model_name} #{attributes}"
 
   rails_command "generate devise:views"
+
+  update_devise_db_migration
+end
+
+private
+
+def update_devise_db_migration
+  devise_migration_filename = Dir.glob('db/migrate/*_devise_create_users.rb').first
+  gsub_file devise_migration_filename, '# t.', 't.'
+  gsub_file devise_migration_filename, '# add_index :', 'add_index :'
 end
