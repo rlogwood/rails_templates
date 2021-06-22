@@ -1,15 +1,22 @@
 # frozen_string_literal: true
 
+def webpack_entrypoints
+  #prod_webpack_entryponts = "app/javascript/packs"
+  next_webpack_entryponts = "app/packs/entrypoints"
+  #webpack_entryponts = next_webpack_entryponts
+  next_webpack_entryponts
+end
+
 def add_tailwindcss
   add_tailwind_modules
   update_babel_config_to_remove_warnings
-  update_postcss_config
+  #update_postcss_config
   create_homepage_with_tailwindcss_test
   run "npx tailwindcss init"
   # TODO: not sure if there is a thor command to do a rename, copy doesn't work because of the directory context
   run 'mv tailwind.config.js  default_tailwind.config.js'
   copy_file('files/tailwind.config.js', 'tailwind.config.js', force: true)
-  copy_file('files/application.scss', 'app/javascript/packs/application.scss')
+  copy_file('files/application.css', "#{webpack_entrypoints}/application.css")
   configure_tailwindcss_application_scss
   run 'mv postcss.config.js  default_postcss.config.js'
   copy_file('files/postcss.config.js', 'postcss.config.js', force: true)
@@ -41,8 +48,23 @@ def add_tailwind_postcss7_compat_modules
   run "yarn add -D #{tailwindcss_modules.join(' ')}"
 end
 
+# TODO: are these needed: postcss-flexbugs-fixes postcss-preset-env
+def add_tailwind_latest_modules
+  tailwindcss_modules = %w[
+    tailwindcss@latest postcss@latest autoprefixer@latest
+    css-loader mini-css-extract-plugin css-minimizer-webpack-plugin
+    postcss-loader
+    @tailwindcss/typography @tailwindcss/forms
+  ]
+
+  run "yarn add -D #{tailwindcss_modules.join(' ')}"
+end
+
+
+
 def add_tailwind_modules
-  add_tailwind_postcss7_compat_modules
+  #add_tailwind_postcss7_compat_modules
+  add_tailwind_latest_modules
 end
 
 
@@ -65,15 +87,15 @@ def update_babel_config_to_remove_warnings
   end
 end
 
-def update_postcss_config
-  inject_into_file 'postcss.config.js', after: '})' do
-    <<~END_STRING
-      ,
-          require('tailwindcss'),
-          require('autoprefixer')
-    END_STRING
-  end
-end
+# def update_postcss_config
+#   inject_into_file 'postcss.config.js', after: '})' do
+#     <<~END_STRING
+#       ,
+#           require('tailwindcss'),
+#           require('autoprefixer')
+#     END_STRING
+#   end
+# end
 
 def create_homepage_with_tailwindcss_test
   generate 'controller', "pages home about"
@@ -99,9 +121,9 @@ def tailwind_test_div
 end
 
 def configure_tailwindcss_application_scss
-  append_to_file 'app/javascript/packs/application.js' do
+  append_to_file "#{webpack_entrypoints}/application.js" do
     <<~END_STRING
-      import './application.scss'
+      import './application.css'
     END_STRING
   end
 

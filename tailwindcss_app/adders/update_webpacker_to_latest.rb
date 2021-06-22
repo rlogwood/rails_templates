@@ -1,5 +1,21 @@
-def update_webpacker_to_latest
-  # v6.0.0-beta.7
+def update_webpacker_to_latest_version
+  webpacker_next_version = {}
+  webpacker_next_version[:gemfile] = "6.0.0.beta.7"
+  webpacker_next_version[:yarn] = "@rails/webpacker@6.0.0-beta.7"
+
+  # gem 'webpacker', '~> 5.0'
+  run "mv app/javascript/packs app/javascript/entrypoints"
+  run "mv app/javascript app/packs"
+  run "yarn remove webpack-dev-server"
+  #gsub_file 'Gemfile', " *gem 'webpacker',.*", "gem 'webpacker', '#{webpacker_next_version[:gemfile]}'"
+  #gsub_file 'Gemfile', /^gem 'webpacker',.*$/, "gem 'webpacker', '6.0.0.beta.7'"
+  gsub_file 'Gemfile', /^gem 'webpacker',.*$/, "gem 'webpacker', '#{webpacker_next_version[:gemfile]}'"
+  do_bundle
+  run "yarn add #{webpacker_next_version[:yarn]} --exact"
+  run "bundle exec rails webpacker:install"
+  run "rm .browserslistrc"
+  copy_file('files/base.js', 'config/webpack/base.js', force: true)
+  run "bin/webpack"
 end
 
 

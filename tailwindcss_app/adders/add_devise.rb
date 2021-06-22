@@ -1,10 +1,5 @@
 # frozen_string_literal :true
 
-def do_bundle
-  # Custom bundle command ensures dependencies are correctly installed
-  Bundler.with_unbundled_env { run "bundle install" }
-end
-
 def add_devise
   run "bundle add devise"
   do_bundle
