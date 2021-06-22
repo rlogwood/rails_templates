@@ -1,3 +1,4 @@
+require_relative 'adders/webpacker'
 require_relative 'adders/add_tailwindcss'
 require_relative 'adders/add_devise'
 require_relative 'adders/add_cancancan'

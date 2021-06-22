@@ -1,4 +1,4 @@
-# frozen_string_literal :true
+# frozen_string_literal: true
 
 def add_cancancan
   run "bundle add cancancan"

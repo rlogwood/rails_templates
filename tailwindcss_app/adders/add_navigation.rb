@@ -1,5 +1,5 @@
-# frozen_string_literal :true
-#
+# frozen_string_literal: true
+
 def add_navbar
   copy_file('files/_navigation.html.erb', 'app/views/shared/_navigation.html.erb')
   copy_file('files/navigation_controller.js', 'app/javascript/controllers/navigation_controller.js')

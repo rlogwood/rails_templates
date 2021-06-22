@@ -10,15 +10,9 @@
   </div>
   <div data-navigation-target="menu" class="w-full hidden md:block flex-grow md:flex md:items-center md:w-auto">
     <div class="text-sm md:flex-grow">
-      <a href="#responsive-header" class="nav-link">
-        Docs
-      </a>
-      <a href="#responsive-header" class="nav-link">
-        Examples
-      </a>
-      <a href="#responsive-header" class="nav-link">
-        Blog
-      </a>
+      <%= link_to 'Home', pages_home_path, class: "nav-link" %>
+      <%= link_to 'About', pages_about_path, class: "nav-link" %>
+      <%= link_to 'Services', pages_services_path, class: "nav-link" %>
     </div>
     <div class="text-sm md:flex-grow">
       <% if user_signed_in? %>

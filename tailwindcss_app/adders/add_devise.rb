@@ -1,5 +1,8 @@
-# frozen_string_literal :true
+# frozen_string_literal: true
 
+# Create a standard devise install with everything enabled
+# Add additional attributes username:string and role:string
+# NOTE: initial source https://railsbytes.com/public/templates/X8Bsjx
 def add_devise
   run "bundle add devise"
   do_bundle
