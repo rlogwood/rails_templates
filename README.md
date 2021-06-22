@@ -1,22 +1,32 @@
 # Templates for Rails
 
-### Only tested on Rails 6.1.3.1, Linux/Ubuntu 20.04.2 LTS
+### Only tested on Rails 6.1.3.2, Linux/Ubuntu 20.04.2 LTS
 
-#### NOTE: where used, `bundle add rexml` # needed for minitest on Linux
+### Cloning the repo
+- HTTPS: `git clone https://github.com/rlogwood/rails_templates.git`
+- SSH:   `git clone git@github.com:rlogwood/rails_templates.git`
 
 
-## Add Bootstap
+### Available Templates 
+
+<details>
+  <summary>Create Tailwind CSS latest Template Instructions</summary>
+
+## Create new Rails app with Tailwind CSS
+   
+   `rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets < rails_templates/tailwindcss_app/input.txt`
+
+</details>
+
+<details>
+  <summary>Create Bootstrap 4 or 5 Template Instructions</summary>
+
+## Create new Rails app with Bootstap
 - Use asset pipeline for CSS
 - Use webpacker for javascript
 
 ### Steps to create new Rails app with Bootstrap 4 or 5
-```
-# HTTPS
-git clone https://github.com/rlogwood/rails_templates.git
 
-# SSH:
-git clone git@github.com:rlogwood/rails_templates.git
-```
 
 ### Configuration Prompts
 
@@ -57,9 +67,11 @@ You can set environment variables to avoid the prompts.
 
 ### Run the template to create a bootstrap app
 Add any other options needed. If you don't set environment variables you'll be prompted
+
 ```
 rails new myapp -m rails_templates/add_bootstrap/template.rb
 ```
+
 ### Verify the result
 Look for a message at the end of the output indicating the choices you made:
 ```
@@ -76,3 +88,7 @@ bin/rails s
 ### Visit the Bootstrap Test page
 - check the navbar drop-down, tool tip popups and modal to confirm everything works:
 - visit [http://localhost:3000/bootstrap_test/index](http://localhost:3000/bootstrap_test/index)
+
+#### NOTE: where used, `bundle add rexml` # needed for minitest on Linux
+
+</details>
