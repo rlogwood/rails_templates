@@ -1,6 +1,11 @@
 # Templates for Rails
 
 ### Only tested on Rails 6.1.3.2, Linux/Ubuntu 20.04.2 LTS
+- node v14.16.0
+- yarn 1.22.10
+- Rails 6.1.3.2
+- ruby 3.0.1p64 (2021-04-05 revision 0fb782ee38) [x86_64-linux]
+
 
 ### Cloning the repo
 - HTTPS: `git clone https://github.com/rlogwood/rails_templates.git`
@@ -12,9 +17,37 @@
 <details>
   <summary>Create Tailwind CSS latest Template Instructions</summary>
 
-## Create new Rails app with Tailwind CSS
-   
-   `rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets < rails_templates/tailwindcss_app/input.txt`
+## Create new Rails app with Tailwind CSS (latest version and PostCSS 8) 
+This template lets you create a basic Rails 6 Tailwind CSS application with either:
+- current production version of webpacker, which is v5 at this time
+- next version of webpacker, which is currently 6.0.0.beta.7
+- NOTE: using webpacker v5 will install  __TailWind PostCSS v7 compatibility version__
+- NOTE: using webpacker next, 6.0.0.beta.7 will install  __TailWind v2.2.2 and PostCSS v8__
+- NOTE: __Tailwind v2.2.3__ isn't currently supported
+
+The template adds: stimulus js (used in responsive navbar), devise and cancancan.
+To control these features, clone the repo and edit `tailwind_app/template.rb`.
+It un-comments all lines in the devise db migration and adds a username and role. 
+The template runs the migration at the end.
+
+## Running the template:
+
+There are 2 input files to answer the prompts to make creating the app easier. 
+They default the devise model to `User` and add the additional fields, username and role.
+You can make a copy and edit these files as needed or run the template and answer the prompts interactively.
+
+- Build Rails 6 Tailwind app with next version of webpacker 6.0.0.beta.7 and Tailwind v2.2.2 and PostCSS v8
+```
+rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets < rails_templates/tailwindcss_app/input/webpacker_next_app.txt
+```
+- Build Rails 6 Tailwind app with production version of webpacker v5 and the Tailwind PostCss v7 compatible version
+```
+rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets < rails_templates/tailwindcss_app/input/webpacker_v5_app.txt
+```
+- Running the template and answering the prompts manually:
+```
+  rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets
+```
 
 </details>
 

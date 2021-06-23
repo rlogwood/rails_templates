@@ -12,73 +12,55 @@ def add_tailwindcss
   copy_file('files/application.css', "#{Webpacker.config[:js_entrypoint]}/application.css")
   run 'mv postcss.config.js  default_postcss.config.js'
   copy_file('files/postcss.config.js', 'postcss.config.js', force: true)
-  configure_tailwindcss_application_scss
+  configure_tailwindcss_application_css
 end
 
 private
 
-
-
-def update_gitignore
-  append_to_file '.gitignore' do
-    '.idea'
-  end
-end
-
-
-# TODO: for postcss v8, found this list somewhere in postcss.config.js
-# Review which moudules are needed for postcss v8
-#     postcss-import
-#     postcss-flexbugs-fixes
-#     postcss-preset-env
-#  Add the postcss 7 compatible tailwind configuration
-#  see https://tailwindcss.com/docs/installation
-def add_tailwind_postcss7_compat_modules
-  tailwindcss_modules = %w[
+# modules needed for the special postcss7 compatible build of tailwind
+# this is the set modules to be used with webpacker v5
+# see https://tailwindcss.com/docs/installation
+def tailwind_postcss7_compat_modules
+  %w[
     tailwindcss@npm:@tailwindcss/postcss7-compat
     postcss@^7 autoprefixer@^9
     @tailwindcss/typography @tailwindcss/forms
   ]
-
-  run "yarn add -D #{tailwindcss_modules.join(' ')}"
 end
 
-# TODO: are these needed: postcss-flexbugs-fixes postcss-preset-env
-def add_tailwind_latest_modules
-  tailwindcss_modules = %w[
+# modules needed for the most recent version of tailwind
+# this is the set of modules to be used with webpacker v6
+# TODO: determine if these are needed: postcss-import postcss-flexbugs-fixes postcss-preset-env?
+# NOTE: this isn't used currently, as of tailwind css 2.2.3, it broke the template
+# so using a set of modules that works as of tailwind css 2.2.2 (see tailwind_working_set_of_modules)
+def tailwind_latest_modules
+  %w[
     tailwindcss@latest postcss@latest autoprefixer@latest
     css-loader mini-css-extract-plugin css-minimizer-webpack-plugin
     postcss-loader
     @tailwindcss/typography @tailwindcss/forms
   ]
+end
 
-  run "yarn add -D #{tailwindcss_modules.join(' ')}"
+# use a specific set of modules for tailwind css that works ok as of version tailwind 2.2.2
+def tailwind_working_set_of_modules
+  %w[
+    tailwindcss@2.2.2 postcss@8.3.5 autoprefixer@10.2.6
+    css-loader@5.2.6 mini-css-extract-plugin@1.6.0 css-minimizer-webpack-plugin@3.0.1
+    postcss-loader@6.1.0
+    @tailwindcss/typography@0.4.1 @tailwindcss/forms@0.3.3
+  ]
 end
 
 def add_tailwind_modules
-  #add_tailwind_postcss7_compat_modules
-  add_tailwind_latest_modules
+  #tailwind_latest_modules
+  tailwind_modules = Webpacker.config[:using_vnext] ? tailwind_working_set_of_modules : tailwind_postcss7_compat_modules
+  run "yarn add -D #{tailwind_modules.join(' ')}"
 end
 
-# Add suggested fix to remove Babel config compilation warnings
-# This warning appears without this fix:
-# The "loose" option must be the same for @babel/plugin-proposal-class-properties,
-#      @babel/plugin-proposal-private-methods and @babel/plugin-proposal-private-property-in-object
-#      (when they are enabled): you can silence this warning by explicitly adding
-# 	["@babel/plugin-proposal-private-methods", { "loose": true }]
-# to the "plugins" section of your Babel config.
-# Though the "loose" option was set to "false" in your @babel/preset-env config,
-# it will not be used for @babel/plugin-proposal-private-methods since the
-# "loose" mode option was set to "true" for @babel/plugin-proposal-class-properties.
-def update_babel_config_to_remove_warnings
-  inject_into_file 'babel.config.js', after: '    plugins: [' do
-    <<-END_STRING
-
-      ["@babel/plugin-proposal-private-methods", { "loose": true }],
-    END_STRING
-  end
-end
-
+# generate some default pages for testing that includes a tailwind css test
+# these pages are used in the example responsive navigation included in the
+# application layout app/views/layout/application.html.erb
 def create_homepage_with_tailwindcss_test
   generate 'controller', "pages home about services"
   copy_file('files/_tailwind_test.html.erb', 'app/views/shared/_tailwind_test.html.erb')
@@ -86,19 +68,24 @@ def create_homepage_with_tailwindcss_test
   route "root to: 'pages#home'"
 end
 
+# provide a tailwind css test div to make sure things are working
 def tailwind_test
   <<-END_STRING
     <%= render partial: 'shared/tailwind_test' %>
   END_STRING
 end
 
-def configure_tailwindcss_application_scss
+# finalize setup for webpack stylesheet, note that css is used instead of scss
+# TODO: figure out if scss is cmpatible with the webpack pipeline when using postcss
+def configure_tailwindcss_application_css
+  # the application css needs to be imported AFAIK, not sure why it can't automatically be picked up?!
   append_to_file "#{Webpacker.config[:js_entrypoint]}/application.js" do
     <<~END_STRING
       import './application.css'
     END_STRING
   end
 
+  # add a recommended font and make it the default
   inject_into_file 'app/views/layouts/application.html.erb', after: '<%= csp_meta_tag %>' do
     <<-'END_STRING'
 
@@ -106,8 +93,10 @@ def configure_tailwindcss_application_scss
     END_STRING
   end
 
+  # comment out the asset pipeline stylesheet tag
   gsub_file 'app/views/layouts/application.html.erb', '<%= stylesheet_link_tag ', '<%# stylesheet_link_tag '
 
+  # add the webpack stylesheet tag
   inject_into_file 'app/views/layouts/application.html.erb', before: '    <%= javascript_pack_tag' do
     <<-END_STRING
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
