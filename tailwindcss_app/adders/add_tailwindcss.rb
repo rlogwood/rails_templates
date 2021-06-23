@@ -9,7 +9,7 @@ def add_tailwindcss
   # TODO: not sure if there is a thor command to do a rename, copy doesn't work because of the directory context
   run 'mv tailwind.config.js  default_tailwind.config.js'
   copy_file('files/tailwind.config.js', 'tailwind.config.js', force: true)
-  copy_file('files/application.css', "#{Webpacker.config[:js_entrypoint]}/application.css")
+  copy_file('files/application.css', "#{WebpackerInstall.config[:js_entrypoint]}/application.css")
   run 'mv postcss.config.js  default_postcss.config.js'
   copy_file('files/postcss.config.js', 'postcss.config.js', force: true)
   configure_tailwindcss_application_css
@@ -54,7 +54,7 @@ end
 
 def add_tailwind_modules
   #tailwind_latest_modules
-  tailwind_modules = Webpacker.config[:using_vnext] ? tailwind_working_set_of_modules : tailwind_postcss7_compat_modules
+  tailwind_modules = WebpackerInstall.config[:using_vnext] ? tailwind_working_set_of_modules : tailwind_postcss7_compat_modules
   run "yarn add -D #{tailwind_modules.join(' ')}"
 end
 
@@ -79,7 +79,7 @@ end
 # TODO: figure out if scss is cmpatible with the webpack pipeline when using postcss
 def configure_tailwindcss_application_css
   # the application css needs to be imported AFAIK, not sure why it can't automatically be picked up?!
-  append_to_file "#{Webpacker.config[:js_entrypoint]}/application.js" do
+  append_to_file "#{WebpackerInstall.config[:js_entrypoint]}/application.js" do
     <<~END_STRING
       import './application.css'
     END_STRING

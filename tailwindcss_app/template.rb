@@ -1,4 +1,4 @@
-require_relative 'adders/webpacker'
+require_relative 'adders/webpacker_install'
 require_relative 'adders/add_tailwindcss'
 require_relative 'adders/add_devise'
 require_relative 'adders/add_cancancan'
@@ -26,7 +26,7 @@ def post_bundle_application_updates
     add_cancancan
     add_navbar
 
-    update_webpacker_to_vnext_version if Webpacker.config[:using_vnext]
+    update_webpacker_to_vnext_version if WebpackerInstall.config[:using_vnext]
     add_tailwindcss
     update_babel_config_to_remove_warnings
 

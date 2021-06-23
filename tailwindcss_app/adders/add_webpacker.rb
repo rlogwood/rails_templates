@@ -5,9 +5,9 @@ def update_webpacker_to_vnext_version
   run "mv app/javascript/packs app/javascript/entrypoints"
   run "mv app/javascript app/packs"
   run "yarn remove webpack-dev-server"
-  gsub_file 'Gemfile', /^gem 'webpacker',.*$/, "gem 'webpacker','#{Webpacker.config[:gemfile]}'"
+  gsub_file 'Gemfile', /^gem 'webpacker',.*$/, "gem 'webpacker','#{WebpackerInstall.config[:gemfile]}'"
   do_bundle
-  run "yarn add #{Webpacker.config[:yarn_add]} --exact"
+  run "yarn add #{WebpackerInstall.config[:yarn_add]} --exact"
   run "bundle exec rails webpacker:install"
   run "rm .browserslistrc"
   copy_file('files/base.js', 'config/webpack/base.js', force: true)
@@ -26,10 +26,10 @@ def install_latest_webpacker
   # run "yarn remove webpack-dev-server"
 
   # skipping wepack install still seems to add the webpacker gem
-  gsub_file 'Gemfile', /^gem 'webpacker',.*$/, "gem 'webpacker','#{Webpacker.config[:gemfile]}'"
-  # this doesn't work if gem already present: gem('webpacker', Webpacker.config[:gemfile])
+  gsub_file 'Gemfile', /^gem 'webpacker',.*$/, "gem 'webpacker','#{WebpackerInstall.config[:gemfile]}'"
+  # this doesn't work if gem already present: gem('webpacker', WebpackerInstall.config[:gemfile])
   do_bundle
-  run "yarn add #{Webpacker.config[:yarn_add]} --exact"
+  run "yarn add #{WebpackerInstall.config[:yarn_add]} --exact"
   run "bundle exec rails webpacker:install"
   run "rm .browserslistrc"
   copy_file('files/base.js', 'config/webpack/base.js', force: true)

@@ -3,7 +3,7 @@
 require 'singleton'
 
 # determine the version of webpacker to use in template to create rails app
-class Webpacker < Thor
+class WebpackerInstall < Thor
   include Singleton
 
   attr_reader :config
@@ -12,12 +12,12 @@ class Webpacker < Thor
     instance.config
   end
 
+  private
+
   def initialize
     determine_webpacker_version_to_use
     super
   end
-
-  private
 
   def determine_webpacker_version_to_use
     webpacker_version = get_webpacker_version
@@ -33,7 +33,6 @@ class Webpacker < Thor
 
   def get_webpacker_version
     say("\n***\n*** Defaulting to webpacker @next (6.0.0.beta.7)\n***")
-    # TODO: supporting the current production webpacker v5, had too many issues with tailwind css!
     use_vnext = !yes?("*** Use production webpacker v5 instead (N/y)?")
     use_vnext ? :next : :current
   end
