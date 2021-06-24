@@ -1,10 +1,5 @@
-require_relative 'adders/webpacker_install'
-require_relative 'adders/add_tailwindcss'
-require_relative 'adders/add_devise'
-require_relative 'adders/add_cancancan'
-require_relative 'adders/add_navigation'
-require_relative 'adders/add_webpacker'
-require_relative 'adders/update_babel_config'
+# require every file in the adders directory
+Dir[File.join(__dir__, 'adders', '*.rb')].each { |file| require file }
 
 # TODO: research this, from Chris' RailsBytes for devise
 def do_bundle
