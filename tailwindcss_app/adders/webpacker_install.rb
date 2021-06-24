@@ -37,9 +37,15 @@ class WebpackerInstall < Thor
     use_vnext ? :next : :current
   end
 
+  def use_tailwind_latest_version
+    say("\n***\n*** Defaulting to Tailwind Latest\n***")
+    !yes?("*** Use Tailwind 2.2.2 instead (N/y)?")
+  end
+
   def initialize_webpacker_next
     @config = {
       using_vnext: true,
+      use_tailwind_latest: use_tailwind_latest_version,
       gemfile: '6.0.0.beta.7',
       yarn_add: '@rails/webpacker@6.0.0-beta.7',
       js_entrypoint: 'app/packs/entrypoints'

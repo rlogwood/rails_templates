@@ -36,14 +36,18 @@ There are 2 input files to answer the prompts to make creating the app easier.
 They default the devise model to `User` and add the additional fields, username and role.
 You can make a copy and edit these files as needed or run the template and answer the prompts interactively.
 
-- Build Rails 6 Tailwind app with next version of webpacker 6.0.0.beta.7 and Tailwind v2.2.2 and PostCSS v8
+#### Tailwind @Latest Webpacker v6
+- Build Rails 6 Tailwind app with next version of webpacker 6.0.0.beta.7 and Tailwind @latest and PostCSS v8
+- NOTE: Tailwind v2.2.2 can optionally be selected when running interactively
 ```
 rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets < rails_templates/tailwindcss_app/input/webpacker_next_app.txt
 ```
+#### Tailwind Compatible with PostCSS v7 Webpacker v5
 - Build Rails 6 Tailwind app with production version of webpacker v5 and the Tailwind PostCss v7 compatible version
 ```
 rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets < rails_templates/tailwindcss_app/input/webpacker_v5_app.txt
 ```
+#### Run interactively to specify options
 - Running the template and answering the prompts manually:
 ```
   rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgresql --skip-sprockets

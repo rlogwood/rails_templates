@@ -29,10 +29,8 @@ def tailwind_postcss7_compat_modules
 end
 
 # modules needed for the most recent version of tailwind
-# this is the set of modules to be used with webpacker v6
+# NOTE: tailwind latest is the default for webpacker v6
 # TODO: determine if these are needed: postcss-import postcss-flexbugs-fixes postcss-preset-env?
-# NOTE: this isn't used currently, as of tailwind css 2.2.3, it broke the template
-# so using a set of modules that works as of tailwind css 2.2.2 (see tailwind_working_set_of_modules)
 def tailwind_latest_modules
   %w[
     tailwindcss@latest postcss@latest autoprefixer@latest
@@ -42,7 +40,12 @@ def tailwind_latest_modules
   ]
 end
 
-# use a specific set of modules for tailwind css that works ok as of version tailwind 2.2.2
+# use a specific set of modules for tailwind css that works with webpacker v6
+# NOTE: While the current stable version is 2.2.2, this should be upgraded periodically
+# to a newer stable version. tailwind 2.2.3 was broken and tailwind 2.2.4 was released
+# the same day and worked (6/23/21). This "working" option for a stable
+# setup of modules known to work ok with webpacker v6 and is useful for situations
+# when @latest is broken.
 def tailwind_working_set_of_modules
   %w[
     tailwindcss@2.2.2 postcss@8.3.5 autoprefixer@10.2.6
@@ -52,10 +55,17 @@ def tailwind_working_set_of_modules
   ]
 end
 
+def tailwind_modules_to_use
+  if WebpackerInstall.config[:using_vnext]
+    WebpackerInstall.config[:use_tailwind_latest] ? tailwind_latest_modules : tailwind_working_set_of_modules
+  else
+    tailwind_postcss7_compat_modules
+  end
+end
+
 def add_tailwind_modules
-  #tailwind_latest_modules
-  tailwind_modules = WebpackerInstall.config[:using_vnext] ? tailwind_working_set_of_modules : tailwind_postcss7_compat_modules
-  run "yarn add -D #{tailwind_modules.join(' ')}"
+  puts "\n***\n*** Adding Tailwind CSS Modules\n***"
+  run "yarn add -D #{tailwind_modules_to_use.join(' ')}"
 end
 
 # generate some default pages for testing that includes a tailwind css test
