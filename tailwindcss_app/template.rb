@@ -37,7 +37,7 @@ def add_template_repository_to_source_path
     end
 
   source_paths.unshift(template_dir)
-  require_template_adder_helpers(template_dir)
+  template_dir
 end
 
 # require_template_adder_helpers(template_dir)
@@ -54,7 +54,12 @@ def update_gitignore
   end
 end
 
-def post_bundle_application_updates
+def post_bundle_application_updates(template_dir)
+  Dir[File.join(template_dir, 'adders', '*.rb')].each do |filename|
+    #{ |file| require file }
+    puts "*** requiring file: #{filename}"
+    require filename
+  end
   after_bundle do
     rails_command "webpacker:install:stimulus"
     add_devise
@@ -77,5 +82,5 @@ def require_template_adder_helpers(template_dir)
   Dir[File.join(template_dir, 'adders', '*.rb')].each { |file| require file }
 end
 
-add_template_repository_to_source_path
-post_bundle_application_updates
+template_dir = add_template_repository_to_source_path
+post_bundle_application_updates(template_dir)
