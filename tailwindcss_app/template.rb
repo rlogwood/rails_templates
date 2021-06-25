@@ -5,8 +5,8 @@ def clone_repo
   tempdir = Dir.mktmpdir("rails_templates-")
   puts "*** tempdir: (#{tempdir})"
 
-  # TODO: add back at_exit when debugging done
-  # at_exit { FileUtils.remove_entry(tempdir) }
+  at_exit { FileUtils.remove_entry(tempdir) }
+
   git clone: [
     "--quiet",
     "https://github.com/rlogwood/rails_templates.git",
