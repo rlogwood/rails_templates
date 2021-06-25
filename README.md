@@ -3,17 +3,15 @@
 <details>
   <summary>Let's talk templates</summary>
 
-### Only tested on Rails 6.1.3.2, Linux/Ubuntu 20.04.2 LTS
+### Tested on Rails 6, Linux/Ubuntu 20.04.2 LTS
 - node v14.16.0
 - yarn 1.22.10
-- Rails 6.1.3.2
+- Rails 6.1.4
 - ruby 3.0.1p64 (2021-04-05 revision 0fb782ee38) [x86_64-linux]
-
 
 ### Cloning the repo
 - HTTPS: `git clone https://github.com/rlogwood/rails_templates.git`
 - SSH:   `git clone git@github.com:rlogwood/rails_templates.git`
-
 
 ### Overview
 
