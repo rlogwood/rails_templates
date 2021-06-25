@@ -9,13 +9,13 @@ def template_updates
   run 'mv app/assets/stylesheets/application.css app/assets/stylesheets/application.scss'
 
   if BootstrapConfig.bootstrap_v5?
-    run 'yarn add bootstrap@next @popperjs/core'
+    run 'yarn add bootstrap@5 @popperjs/core'
     if BootstrapConfig.use_jquery?
       run 'yarn add jquery'
     end
   else
     puts 'Using Bootstrap v4'
-    run 'yarn add bootstrap jquery popper.js'
+    run 'yarn add bootstrap@4 jquery popper.js'
   end
 
   gem 'rexml' # needed for testing on Ubuntu

@@ -19,11 +19,11 @@ class BootstrapConfig < Thor
   end
 
   def self.bootstrap_version_name
-    bootstrap_v5? ? "v(5/next)" : "v4"
+    bootstrap_v5? ? "v5" : "v4"
   end
 
   def self.bootstrap_choice_description
-    version = instance.use_bootstrap_v5 ? "v5 @next" : "v4"
+    version = instance.use_bootstrap_v5 ? "v5" : "v4"
     jquery =  instance.use_jquery ? "will be added (#{instance.use_bootstrap_v5 ? "requested for v5" : "required for v4"})" : "is not needed"
     "\n***\n*** Using Bootstrap #{version}\n*** jQuery #{jquery}\n***\n"
   end
@@ -50,7 +50,7 @@ class BootstrapConfig < Thor
     return true if env_defines_bootstrap_v5?
     return false if env_defines_bootstrap_v4?
 
-    say("\n***\n*** Default bootstrap is v5 @next (5.0.0-beta3)\n***")
+    say("\n***\n*** Default bootstrap is v5\n***")
     !yes?("*** Use bootstrap v4 instead (N/y)?")
   end
 
