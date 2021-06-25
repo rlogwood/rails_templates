@@ -3,8 +3,10 @@
 def clone_repo
   require "tmpdir"
   tempdir = Dir.mktmpdir("rails_templates-")
-  #source_paths.unshift(
-  at_exit { FileUtils.remove_entry(tempdir) }
+  puts "*** tempdir: (#{tempdir})"
+
+  # TODO: add back at_exit when debugging done
+  # at_exit { FileUtils.remove_entry(tempdir) }
   git clone: [
     "--quiet",
     "https://github.com/rlogwood/rails_templates.git",
@@ -18,7 +20,7 @@ def clone_repo
   end
 
   # template_dir
-  File.join(tempdir,"rails_templates", "tailwindcss_app")
+  File.join(tempdir,"tailwindcss_app")
 end
 
 
@@ -37,6 +39,8 @@ def add_template_repository_to_source_path
     end
 
   source_paths.unshift(template_dir)
+  puts "*** source_paths: (#{source_paths.join(" ")})"
+  puts "*** template_dir: (#{template_dir})"
   template_dir
 end
 
@@ -56,7 +60,6 @@ end
 
 def post_bundle_application_updates(template_dir)
   Dir[File.join(template_dir, 'adders', '*.rb')].each do |filename|
-    #{ |file| require file }
     puts "*** requiring file: #{filename}"
     require filename
   end
