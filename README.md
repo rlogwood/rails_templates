@@ -32,9 +32,23 @@ The template runs the migration at the end.
 
 ## Running the template:
 
-There are 2 input files to answer the prompts to make creating the app easier. 
-They default the devise model to `User` and add the additional fields, username and role.
-You can make a copy and edit these files as needed or run the template and answer the prompts interactively.
+### 1. Run directly from github after retrieving the input file. 
+- the example shown creates a tailwindcss@latest application with webpacker v6 
+```
+# Get the input file
+wget https://raw.githubusercontent.com/rlogwood/rails_templates/main/tailwindcss_app/input/webpacker_next_app.txt
+
+# Run the command from github redirecting input from the input file webpacker_nex_app.txt: 
+rails new (my_app_name) -m https://raw.githubusercontent.com/rlogwood/rails_templates/main/tailwindcss_app/template.rb -d postgresql --skip-sprockets < webpacker_next_app.txt
+```
+
+
+### 2. Clone the repo and run the `rails new` specifying the path to the template files shown.
+- There are 2 input files to answer the prompts to make creating the app easier. 
+- They default the devise model to `User` and add the additional fields, username and role.
+- You can make a copy and edit these files as needed or run the template and answer the prompts interactively.
+
+### The following examples show how to run the template after it's been cloned:
 
 #### Tailwind @Latest Webpacker v6
 - Build Rails 6 Tailwind app with next version of webpacker 6.0.0.beta.7 and Tailwind @latest and PostCSS v8
