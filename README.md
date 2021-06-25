@@ -2,6 +2,7 @@
 
 <details>
   <summary>Let's talk templates</summary>
+
 ### Only tested on Rails 6.1.3.2, Linux/Ubuntu 20.04.2 LTS
 - node v14.16.0
 - yarn 1.22.10
@@ -37,7 +38,7 @@ There are a lot of options available. The templates in this repo are meant to ad
 fast moving parts of the eco system. Trying to find the right combination
 of commands, gems and yarn packages to make things work, can be a time consuming exercise and
 one where you'll find conflicting advice at times. A working template is like a fresh batch of 
-warm cookies, they're good to eat and well baked :) If you like the idea of having the Rails
+warm cookies, they're good to eat and well baked :) If you like the idea of providing the Rails
 community have a wide variety of good cookies to eat, let's collaborate! :)
 
 NOTE: These templates are a WIP and there have been no releases yet
@@ -51,9 +52,9 @@ NOTE: These templates are a WIP and there have been no releases yet
 
 ### Available Templates 
 
-<details>Bootstrap 5 releases
-  <summary>Create Tailwind CSS latest Template InBootstrap 5 releasesstructions</summary>
-Bootstrap 5 releases
+<details> 
+  <summary>Create Tailwind CSS Application Instructions</summary>
+
 ## Create new Rails app with Tailwind CSS (latest version and PostCSS 8) 
 This template lets you create a basic Rails 6 Tailwind CSS application with either:
 - current production version of webpacker, which is v5 at this time
@@ -107,7 +108,7 @@ rails new (my_app_name) -m rails_templates/tailwindcss_app/template.rb -d postgr
 </details>
 
 <details>
-  <summary>Create Bootstrap 4 or 5 Template Instructions</summary>
+  <summary>Create Bootstrap 5 or 4 Application Instructions</summary>
 
 ## Create a fresh Rails app with bootstrap and a test page
 - follow the prompts, bootstrap 5 is the default
@@ -129,9 +130,9 @@ rails new myapp -m ~/myrepos/rails_templates/add_bootstrap/template.rb
 
 ### Configuration Prompts
 
-Bootstrap v5 (@next) is the default version and you'll be asked to confirm:
+Bootstrap v5 is the default version and you'll be asked to confirm:
 ```
-    *** Default bootstrap is v5 @next (5.0.0-beta3)
+    *** Default bootstrap is v5 
     ***
     *** Use bootstrap v4 instead (N/y)?
 ```
@@ -174,7 +175,7 @@ rails new myapp -m rails_templates/add_bootstrap/template.rb
 ### Verify the result
 Look for a message at the end of the output indicating the choices you made:
 ```
- *** Using Bootstrap v5 @next
+ *** Using Bootstrap v5
  *** jQuery is not needed
  ```
 
