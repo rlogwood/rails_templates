@@ -35,9 +35,9 @@ small working application to get a fast start in learning something new or creat
 There are a lot of options available. The templates in this repo are meant to address some of the more
 fast moving parts of the eco system. Trying to find the right combination
 of commands, gems and yarn packages to make things work, can be a time consuming exercise and
-one where you'll find conflicting advice at times. A working template is like a fresh batch of 
-warm cookies, they're good to eat and well baked :) If you like the idea of providing the Rails
-community have a wide variety of good cookies to eat, let's collaborate! :)
+one where you'll find conflicting advice at times. A working rails template is like a fresh batch of 
+well baked, warm cookies, they're tasty and ready to eat :) If you like the idea of providing the Rails
+community fresh cookies, let's collaborate! :)
 
 NOTE: These templates are a WIP and there have been no releases yet
 
