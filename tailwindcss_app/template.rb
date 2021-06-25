@@ -1,32 +1,46 @@
 
+
+def clone_repo
+  require "tmpdir"
+  tempdir = Dir.mktmpdir("rails_templates-")
+  #source_paths.unshift(
+  at_exit { FileUtils.remove_entry(tempdir) }
+  git clone: [
+    "--quiet",
+    "https://github.com/rlogwood/rails_templates.git",
+    tempdir
+  ].map(&:shellescape).join(" ")
+
+  if (branch = __FILE__[%r{rails_templates/(.+)/tailwindcss_app/template.rb}, 1])
+    Dir.chdir(tempdir) do
+      git checkout: branch
+    end
+  end
+
+  # template_dir
+  File.join(tempdir,"rails_templates", "tailwindcss_app")
+end
+
+
 # Copied from: https://raw.githubusercontent.com/excid3/jumpstart/master/template.rb
-# ==================================================================
-# Copied from: https://github.com/mattbrictson/rails-template
+# which it copied it from: https://github.com/mattbrictson/rails-template
 # Add this template directory to source_paths so that Thor actions like
 # copy_file and template resolve against our source files. If this file was
 # invoked remotely via HTTP, that means the files are not present locally.
 # In that case, use `git clone` to download them to a local temporary dir.
 def add_template_repository_to_source_path
-  if __FILE__ =~ %r{\Ahttps?://}
-    require "tmpdir"
-    source_paths.unshift(tempdir = Dir.mktmpdir("jumpstart-"))
-    at_exit { FileUtils.remove_entry(tempdir) }
-    git clone: [
-      "--quiet",
-      "https://github.com/excid3/jumpstart.git",
-      tempdir
-    ].map(&:shellescape).join(" ")
-
-    if (branch = __FILE__[%r{jumpstart/(.+)/template.rb}, 1])
-      Dir.chdir(tempdir) do
-        git checkout: branch
-      end
+  template_dir =
+    if __FILE__ =~ %r{\Ahttps?://}
+      clone_repo
+    else
+      File.dirname(__FILE__)
     end
-  else
-    source_paths.unshift(File.dirname(__FILE__))
-  end
+
+  source_paths.unshift(template_dir)
+  require_template_adder_helpers(template_dir)
 end
 
+# require_template_adder_helpers(template_dir)
 # TODO: research this, from Chris' RailsBytes for devise
 def do_bundle
   # Custom bundle command ensures dependencies are correctly installed
@@ -58,11 +72,10 @@ def post_bundle_application_updates
   end
 end
 
-def require_template_adder_helpers
+def require_template_adder_helpers(template_dir)
   # require every file in the adders directory
-  Dir[File.join(__dir__, 'adders', '*.rb')].each { |file| require file }
+  Dir[File.join(template_dir, 'adders', '*.rb')].each { |file| require file }
 end
 
 add_template_repository_to_source_path
-require_template_adder_helpers
 post_bundle_application_updates
