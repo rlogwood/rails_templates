@@ -19,12 +19,14 @@ end
 private
 
 def update_package_json
-  update_webpack_and_webpack_cli_versions
+  update_webpack_and_webpack_cli_versions_for_v6
   # specify a version of yarn and node that is known to work on Heroku heroku/nodejs build pack
   inject_into_file('package.json', after: '  "private": true,') { package_json_engines }
 end
 
-def update_webpack_and_webpack_cli_versions
+def update_webpack_and_webpack_cli_versions_for_v6
+  return unless WebpackerInstall.config[:using_vnext]
+
   # Use the versions of webpack and webpack-cli that webpacker.6.0.0.beta.7 installs
   gsub_file 'package.json', /"webpack":.*$/, '"webpack": "^5.40.0",'
   gsub_file 'package.json', /"webpack-cli":.*$/, '"webpack-cli": "^4.7.2"'
