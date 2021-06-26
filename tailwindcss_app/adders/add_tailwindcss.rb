@@ -65,7 +65,7 @@ end
 
 def add_tailwind_modules
   puts "\n***\n*** Adding Tailwind CSS Modules\n***"
-  run "yarn add -D #{tailwind_modules_to_use.join(' ')}"
+  run "yarn add #{tailwind_modules_to_use.join(' ')}"
 end
 
 # generate some default pages for testing that includes a tailwind css test

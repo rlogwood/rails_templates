@@ -77,6 +77,7 @@ def post_bundle_application_updates(template_dir)
     rails_command "db:create"
     rails_command "db:migrate"
     update_gitignore
+    copy_file('files/Procfile', 'Procfile')
   end
 end
 
@@ -87,3 +88,5 @@ end
 
 template_dir = add_template_repository_to_source_path
 post_bundle_application_updates(template_dir)
+
+

@@ -53,6 +53,19 @@ NOTE: These templates are a WIP and there have been no releases yet
 <details> 
   <summary>Create Tailwind CSS Application Instructions</summary>
 
+## Heroku deployment 
+```sh
+% heroku apps:create --buildpack heroku/ruby my-app-name
+# optionally set buildpack after heroku app creatikon
+# % heroku buildpacks:set heroku/ruby
+% heroku buildpacks:add --index 1 heroku/nodejs
+% heroku buildpacks
+% git checkout -b main
+% git add .
+% git commit -m "initial check-in"
+% git push heroku main
+```
+
 ## Create new Rails app with Tailwind CSS (latest version and PostCSS 8) 
 This template lets you create a basic Rails 6 Tailwind CSS application with either:
 - current production version of webpacker, which is v5 at this time
