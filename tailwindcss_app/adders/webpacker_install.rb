@@ -12,6 +12,30 @@ class WebpackerInstall < Thor
     instance.config
   end
 
+  def self.postcss_config_source_filename
+    instance.postcss_config_source_filename
+  end
+
+  def self.stylesheet_source_filename
+    instance.stylesheet_source_filename
+  end
+
+  def self.stylesheet_destination_filename
+    instance.stylesheet_destination_filename
+  end
+
+  def postcss_config_source_filename
+    File.join('files', config[:version_directory], 'postcss.config.js')
+  end
+
+  def stylesheet_source_filename
+    File.join('files', config[:version_directory], config[:stylesheet_name])
+  end
+
+  def self.stylesheet_destination_filename
+    File.join(config[:js_entrypoint], config[:stylesheet_name])
+  end
+
   private
 
   def initialize
@@ -45,6 +69,8 @@ class WebpackerInstall < Thor
   def initialize_webpacker_next
     @config = {
       using_vnext: true,
+      version_directory: 'webpacker_6',
+      stylesheet_name: 'application.scss',
       use_tailwind_latest: use_tailwind_latest_version,
       gemfile: '6.0.0.beta.7',
       yarn_add: '@rails/webpacker@6.0.0-beta.7',
@@ -55,6 +81,8 @@ class WebpackerInstall < Thor
   def initialize_webpacker_current
     @config = {
       using_vnext: false,
+      version_directory: 'webpacker_5',
+      stylesheet_name: 'application.css',
       js_entrypoint: 'app/javascript/packs'
       # NOTE: gemfile and yarn configuration is not needed for production webpacker,
       # take defaults by rails new command. As of 6/23/21 the defauls are:

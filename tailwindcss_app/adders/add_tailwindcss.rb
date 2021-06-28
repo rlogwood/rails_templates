@@ -9,10 +9,9 @@ def add_tailwindcss
   # TODO: not sure if there is a thor command to do a rename, copy doesn't work because of the directory context
   run 'mv tailwind.config.js  default_tailwind.config.js'
   copy_file('files/tailwind.config.js', 'tailwind.config.js', force: true)
-  copy_file('files/application.css', "#{WebpackerInstall.config[:js_entrypoint]}/application.css")
+  configure_tailwindcss_application_stylesheet
   run 'mv postcss.config.js  default_postcss.config.js'
-  copy_file('files/postcss.config.js', 'postcss.config.js', force: true)
-  configure_tailwindcss_application_css
+  copy_file(WebpackerInstall.postcss_config_source_filename, 'postcss.config.js', force: true)
 end
 
 private
@@ -36,6 +35,8 @@ def tailwind_latest_modules
     tailwindcss@latest postcss@latest autoprefixer@latest
     css-loader mini-css-extract-plugin css-minimizer-webpack-plugin
     postcss-loader
+    postcss-import postcss-flexbugs-fixes postcss-preset-env
+    sass sass-loader
     @tailwindcss/typography @tailwindcss/forms
   ]
 end
@@ -51,6 +52,8 @@ def tailwind_working_set_of_modules
     tailwindcss@2.2.2 postcss@8.3.5 autoprefixer@10.2.6
     css-loader@5.2.6 mini-css-extract-plugin@1.6.0 css-minimizer-webpack-plugin@3.0.1
     postcss-loader@6.1.0
+    postcss-import postcss-flexbugs-fixes postcss-preset-env
+    sass sass-loader
     @tailwindcss/typography@0.4.1 @tailwindcss/forms@0.3.3
   ]
 end
@@ -87,11 +90,13 @@ end
 
 # finalize setup for webpack stylesheet, note that css is used instead of scss
 # TODO: figure out if scss is cmpatible with the webpack pipeline when using postcss
-def configure_tailwindcss_application_css
+def configure_tailwindcss_application_stylesheet
+  copy_file(WebpackerInstall.stylesheet_source_filename, WebpackerInstall.stylesheet_destination_filename)
+
   # the application css needs to be imported AFAIK, not sure why it can't automatically be picked up?!
   append_to_file "#{WebpackerInstall.config[:js_entrypoint]}/application.js" do
     <<~END_STRING
-      import './application.css'
+      import './#{WebpackerInstall.config[:stylesheet_name]}'
     END_STRING
   end
 
