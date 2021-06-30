@@ -73,6 +73,7 @@ This template lets you create a basic Rails 6 Tailwind CSS application with eith
 - NOTE: using webpacker v5 will install  __TailWind PostCSS v7 compatibility version and PostCSS v7 (`tailwindcss@npm:@tailwindcss/postcss7-compat`)__
 - NOTE: using webpacker next, 6.0.0.beta.7 will install  __TailWind Latest (`tailwindcss@latest`) and PostCSS v8__
 - NOTE: If you modify the input files or run interactively you can request a older stable version of Tailwind be installed, currently __Tailwind v2.2.2__.
+- NOTE: js.erb and scss.erb files are supported for webpacker 6 only. See `app/packs/javascript/erb_test.js.erb` and `app/packs/stylesheets/erb_test.scss.erb` both are included by `app/packs/entrypoints/application.js` 
 
 The template adds: stimulus js (used in responsive navbar), devise and cancancan.
 To control these features, clone the repo and edit `tailwind_app/template.rb`.

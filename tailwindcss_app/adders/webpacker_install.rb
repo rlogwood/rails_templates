@@ -24,16 +24,26 @@ class WebpackerInstall < Thor
     instance.stylesheet_destination_filename
   end
 
+  def self.versioned_full_filename(filename)
+    instance.versioned_full_filename(filename)
+  end
+
   def postcss_config_source_filename
-    File.join('files', config[:version_directory], 'postcss.config.js')
+    #File.join('files', config[:version_directory], 'postcss.config.js')
+    versioned_full_filename('postcss.config.js')
   end
 
   def stylesheet_source_filename
-    File.join('files', config[:version_directory], config[:stylesheet_name])
+    #File.join('files', config[:version_directory], config[:stylesheet_name])
+    versioned_full_filename(config[:stylesheet_name])
   end
 
   def self.stylesheet_destination_filename
     File.join(config[:js_entrypoint], config[:stylesheet_name])
+  end
+
+  def versioned_full_filename(filename)
+    File.join('files', config[:version_directory], filename)
   end
 
   private
@@ -42,6 +52,7 @@ class WebpackerInstall < Thor
     determine_webpacker_version_to_use
     super
   end
+
 
   def determine_webpacker_version_to_use
     webpacker_version = get_webpacker_version

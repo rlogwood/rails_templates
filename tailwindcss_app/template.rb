@@ -81,10 +81,10 @@ def post_bundle_application_updates(template_dir)
   end
 end
 
-def require_template_adder_helpers(template_dir)
-  # require every file in the adders directory
-  Dir[File.join(template_dir, 'adders', '*.rb')].each { |file| require file }
-end
+#def require_template_adder_helpers(template_dir)
+#  # require every file in the adders directory
+#  Dir[File.join(template_dir, 'adders', '*.rb')].each { |file| require file }
+#end
 
 template_dir = add_template_repository_to_source_path
 post_bundle_application_updates(template_dir)

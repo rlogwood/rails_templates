@@ -12,6 +12,7 @@ def add_tailwindcss
   configure_tailwindcss_application_stylesheet
   run 'mv postcss.config.js  default_postcss.config.js'
   copy_file(WebpackerInstall.postcss_config_source_filename, 'postcss.config.js', force: true)
+  add_erb_tests
 end
 
 private
@@ -38,6 +39,7 @@ def tailwind_latest_modules
     postcss-import postcss-flexbugs-fixes postcss-preset-env
     sass sass-loader
     @tailwindcss/typography @tailwindcss/forms
+    rails-erb-loader
   ]
 end
 
@@ -55,7 +57,31 @@ def tailwind_working_set_of_modules
     postcss-import postcss-flexbugs-fixes postcss-preset-env
     sass sass-loader
     @tailwindcss/typography@0.4.1 @tailwindcss/forms@0.3.3
+    rails-erb-loader
   ]
+end
+
+def install_webpack_pack_file(filename, pack_subdirectory)
+  destination = File.join(WebpackerInstall.config[:js_entrypoint], '..', pack_subdirectory)
+  run "mkdir -p #{destination}"
+  source_filename = WebpackerInstall.versioned_full_filename(filename)
+    #  File.join(WebpackerInstall.config[:version_directory], filename)
+  destination_filename = File.join(destination, filename)
+  copy_file(source_filename, destination_filename, force: true)
+
+  append_to_file "#{WebpackerInstall.config[:js_entrypoint]}/application.js" do
+    <<~END_STRING
+      import "#{File.join('..',pack_subdirectory, filename)}"
+    END_STRING
+  end
+end
+
+# only support erb config for tailwindcss@latest and webpacker v6
+def add_erb_tests
+  return unless WebpackerInstall.config[:using_vnext]
+
+  install_webpack_pack_file('erb_test.js.erb', 'javascript')
+  install_webpack_pack_file('erb_test.scss.erb', 'stylesheets')
 end
 
 def tailwind_modules_to_use
