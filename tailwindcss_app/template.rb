@@ -81,6 +81,7 @@ def post_bundle_application_updates(template_dir)
     add_devise
     add_cancancan
     add_navbar
+    copy_devise_views(template_dir) if WebpackerInstall.config[:using_vnext]
 
     rails_command "db:drop"
     rails_command "db:create"

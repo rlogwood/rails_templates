@@ -28,3 +28,10 @@ def copy_template_stylesheets(template_dir)
   run "rm -fr #{dest_dir}"
   directory source_dir, dest_dir
 end
+
+def copy_devise_views(template_dir)
+  source_dir = File.join(template_dir,'files', 'views', 'devise')
+  dest_dir = File.join('app', 'views', 'devise')
+  run "rm -fr #{dest_dir}"
+  directory source_dir, dest_dir
+end
