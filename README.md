@@ -47,7 +47,7 @@ NOTE: These templates are a WIP and there have been no releases yet
 2. Tailwind CSS is released frequently, sometimes @latest maybe unstable. In those cases install the last tested stable version (currently 2.2.2, follow the prompts) 
 3. Webpacker v6 and changes may require updates to this template
 4. Ideas sourced from https://railsbytes.com/ 
-5. Rails scaffolding for tailwindcss@latest is originally sourced from mfrom Andy Leverenz
+5. Rails scaffolding for tailwindcss@latest is originally sourced from from Andy Leverenz
    see https://www.youtube.com/watch?v=BTW3MSkX6O0
    see https://github.com/justalever/scaffold_templates_example/tree/master/lib/templates/erb/scaffold
    
