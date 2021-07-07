@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-
-def add_tailwindcss
+def add_tailwindcss(template_dir)
   add_tailwind_modules
   update_babel_config_to_remove_warnings
   create_homepage_with_tailwindcss_test
@@ -16,6 +15,16 @@ def add_tailwindcss
 end
 
 private
+
+
+def copy_error_message_partial(template_dir)
+  filename = '_error_messages.html.erb'
+  source_file = File.join(template_dir,'files', 'views', 'application', filename)
+  dest_file = File.join('app', 'views', 'application', filename)
+  #run "rm -f #{dest_file}"
+  #run "cp -f #{source_file} #{dest_file}"
+  copy_file(source_file, dest_file, force: true)
+end
 
 # modules needed for the special postcss7 compatible build of tailwind
 # this is the set modules to be used with webpacker v5

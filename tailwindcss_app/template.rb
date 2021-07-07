@@ -23,7 +23,6 @@ def clone_repo
   File.join(tempdir,"tailwindcss_app")
 end
 
-
 # Copied from: https://raw.githubusercontent.com/excid3/jumpstart/master/template.rb
 # which it copied it from: https://github.com/mattbrictson/rails-template
 # Add this template directory to source_paths so that Thor actions like
@@ -58,6 +57,15 @@ def update_gitignore
   end
 end
 
+def run_test(template_dir)
+  Dir[File.join(template_dir, 'adders', '*.rb')].each do |filename|
+    puts "*** requiring file: #{filename}"
+    require filename
+  end
+
+  copy_templates(template_dir)
+end
+
 def post_bundle_application_updates(template_dir)
   Dir[File.join(template_dir, 'adders', '*.rb')].each do |filename|
     puts "*** requiring file: #{filename}"
@@ -65,13 +73,14 @@ def post_bundle_application_updates(template_dir)
   end
   after_bundle do
     rails_command "webpacker:install:stimulus"
+    update_webpacker_to_vnext_version if WebpackerInstall.config[:using_vnext]
+    add_tailwindcss(template_dir)
+    copy_scaffold_templates(template_dir) if WebpackerInstall.config[:using_vnext]
+    update_babel_config_to_remove_warnings
+
     add_devise
     add_cancancan
     add_navbar
-
-    update_webpacker_to_vnext_version if WebpackerInstall.config[:using_vnext]
-    add_tailwindcss
-    update_babel_config_to_remove_warnings
 
     rails_command "db:drop"
     rails_command "db:create"
@@ -87,6 +96,7 @@ end
 #end
 
 template_dir = add_template_repository_to_source_path
+#run_test(template_dir)
 post_bundle_application_updates(template_dir)
 
 

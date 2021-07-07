@@ -13,7 +13,7 @@ def update_webpacker_to_vnext_version
   run "yarn install"
   run "rm .browserslistrc"
   copy_file('files/base.js', 'config/webpack/base.js', force: true)
-  run "bin/webpack"
+  #run "bin/webpack"
 end
 
 private
