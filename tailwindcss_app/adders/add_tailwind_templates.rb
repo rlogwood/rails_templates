@@ -23,9 +23,9 @@ def copy_dir(source_dir, destination_dir)
 end
 
 def copy_template_stylesheets(template_dir)
-  source_dir = File.join(template_dir,'files', 'stylesheets', 'components')
-  dest_dir = File.join('app', 'packs', 'stylesheets', 'components')
-  run "rm -fr #{dest_dir}"
+  source_dir = File.join(template_dir,'files', 'stylesheets')
+  dest_dir = File.join('app', 'packs', 'stylesheets')
+  #run "rm -fr #{dest_dir}"
   directory source_dir, dest_dir
 end
 
