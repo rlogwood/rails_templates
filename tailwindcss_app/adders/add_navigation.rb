@@ -2,7 +2,11 @@
 
 def add_navbar
   copy_file('files/_navigation.html.erb', 'app/views/shared/_navigation.html.erb')
-  copy_file('files/navigation_controller.js', 'app/javascript/controllers/navigation_controller.js')
+
+  navigation_controller_destination =
+    File.join(WebpackerInstall.config[:js_entrypoint], '..', 'controllers', 'navigation_controller.js')
+
+  copy_file('files/navigation_controller.js', navigation_controller_destination)
   gsub_file 'app/views/layouts/application.html.erb', '    <%= yield %>', add_navigation_to_layout
 end
 
