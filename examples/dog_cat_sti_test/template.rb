@@ -94,8 +94,14 @@ end
 def initialize_db
   create_file(DB_SEEDS_FILENAME, force: true)
   append_to_file(DB_SEEDS_FILENAME, DB_SEEDS_CONTENT)
+
   rails_command "db:drop"
-  rails_command "db:prepare"
+
+  # NOTE: as of 7/18/21 db:prepare behaves differently on SqlLite3 and PostgresSQL
+  # explicitly running commands to avoid a seeding problem on SqlLite3
+  rails_command "db:create"
+  rails_command "db:migrate"
+  rails_command "db:seed"
 end
 
 def create_nav_bar
