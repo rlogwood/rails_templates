@@ -1,0 +1,6 @@
+<div class="boards">
+  <div class="board-name">Boards</div>
+  <% boards.each do |board| %>
+    <%= render partial: 'board', locals: { board: board } %>
+  <% end %>
+</div>

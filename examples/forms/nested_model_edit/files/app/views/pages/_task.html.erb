@@ -1,0 +1,13 @@
+<div class="task">
+  <div class="task-summary">
+    <%= task.summary %>
+  </div>
+  <div class="task-description">
+    <%= task.description %>
+  </div>
+
+  <% task.steps.each do |step| %>
+    <%= render partial: 'step', locals: { step: step } %>
+  <% end %>
+
+</div>

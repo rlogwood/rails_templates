@@ -1,0 +1,13 @@
+<div class="task">
+  <div class="task-name">
+    <% task.name %>
+  </div>
+  <div class="task-description">
+    <% task.description %>
+  </div>
+
+  <% task.steps.each do |step| %>
+    <%= render 'step', locals: { step: step } %>
+  <% end %>
+
+</div>
