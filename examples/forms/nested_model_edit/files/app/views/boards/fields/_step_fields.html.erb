@@ -1,0 +1,13 @@
+<div class="grid-container">
+  <ul>
+    <%= form.fields_for :steps do |step_form| %>
+      <li>
+        <div class="field">
+          <%= step_form.label :description, 'Step', class: "small-label" %>
+          <%= step_form.text_field :order, class: "step-order"  %>
+          <%= step_form.text_field :description %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

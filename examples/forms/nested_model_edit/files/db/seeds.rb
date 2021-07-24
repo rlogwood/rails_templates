@@ -12,6 +12,10 @@ Task.create(summary: 'read vacation blogs', description: 'learn from others', li
 
 Task.create(summary: 'cut grass', description: 'lawn care', list_id: 2)
 
+Task.create(summary: 'paint downstairs',
+            description: 'repaint high traffic areas', list_id: 1)
+
+
 Step.create(order: 1, description: 'turn off water and disconnect sink fittings', task_id: 1)
 Step.create(order: 2, description: 'lift sink out of cabinet', task_id: 1)
 Step.create(order: 3, description: 'remove old cabinet', task_id: 1)
@@ -27,3 +31,7 @@ Step.create(order: 2, description: 'edge walkway terraces', task_id: 3)
 Step.create(order: 3, description: 'bush hog front 20', task_id: 3)
 Step.create(order: 4, description: 'zero turn mow front & back', task_id: 3)
 
+Step.create(order: 1, description: 'patch', task_id: 4)
+Step.create(order: 2, description: 'sand', task_id: 4)
+Step.create(order: 3, description: 'clean', task_id: 4)
+Step.create(order: 4, description: 'paint', task_id: 4)

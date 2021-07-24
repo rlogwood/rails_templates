@@ -1,0 +1,9 @@
+<div class="list-edit">
+  <li>
+    <div class="grid-item">
+      <%= form.label :name, 'List' %>
+      <%= form.text_field :name %>
+    </div>
+    <%= render partial: 'boards/fields/task_fields', locals: { form: form } %>
+  </li>
+</div>

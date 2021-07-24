@@ -1,0 +1,29 @@
+<h2>Board Edit</h2>
+<%= form_with(model: board) do |form| %>
+  <div class="board-edit-heading">
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: "small-label" %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <ul>
+      <!--
+           NOTE: everywhere fields_for is used with a plural relation likes :lists all of the existing
+           items in the has_many association will be rendered
+      -->
+      <%= form.fields_for :lists do |list_form| %>
+        <%= render partial: 'boards/fields/list_fields', locals: { form: list_form } %>
+      <% end %>
+    </ul>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

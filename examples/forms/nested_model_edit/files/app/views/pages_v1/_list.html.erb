@@ -1,9 +1,0 @@
-<div class="list">
-  <div class="list-name">
-    <%= list.name %>
-  </div>
-
-  <% list.tasks.each do |task| %>
-    <% render 'task', locals: { task: list.task } %>
-  <% end %>
-</div>

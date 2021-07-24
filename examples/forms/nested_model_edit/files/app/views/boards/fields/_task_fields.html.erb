@@ -1,0 +1,21 @@
+<div class="tasks-edit">
+  <ul>
+    <%= form.fields_for :tasks do |task_form| %>
+      <li class="task-edit">
+        <div>
+          <%= task_form.label :summary, 'Task' %>
+          <%= task_form.text_field :summary %>
+        </div>
+        <div>
+          <div>
+            <%= task_form.label :description, class: "small-label" %>
+          </div>
+          <div>
+            <%= task_form.text_area :description, class: "task-description" %>
+          </div>
+        </div>
+        <%= render partial: 'boards/fields/step_fields', locals: { form: task_form } %>
+      </li>
+    <% end %>
+  </ul>
+</div>

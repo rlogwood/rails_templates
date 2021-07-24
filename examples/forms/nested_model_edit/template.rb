@@ -1,5 +1,29 @@
 # frozen_string_literal: true
 
+# Creates an example nested model for testing nested forms
+#
+# Board: [0..N]
+#    List: [0..N]
+#       Task: [0..N]
+#          Step: [0..N]
+#
+# uses ActionView Form helper fields_for and ActiveRecord helper accepts_nested_attributes_for
+
+BOARD_CLASS_INJECTION = <<-'RUBY'
+  has_many :lists
+  accepts_nested_attributes_for :lists, allow_destroy: true, reject_if: :all_blank
+RUBY
+
+LIST_CLASS_INJECTION = <<-'RUBY'
+  has_many :tasks
+  accepts_nested_attributes_for :tasks, allow_destroy: true, reject_if: :all_blank
+RUBY
+
+TASK_CLASS_INJECTION = <<-'RUBY'
+  has_many :steps
+  accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: :all_blank
+RUBY
+
 REPO_NAME = 'rails_templates'
 TEMPLATE_DIR_NAME = 'nested_model_edit'
 TEMPLATE_FILENAME = 'template.rb'
@@ -51,16 +75,17 @@ def generate_scaffold
   generate :model, 'task', 'summary', 'description:text', 'list:references'
   generate :model, 'list', 'name', 'board:references'
   generate :model, 'board', 'name', 'description'
-  inject_into_class('app/models/task.rb',  'Task',   "  has_many :steps\n")
-  inject_into_class('app/models/list.rb',  'List',   "  has_many :tasks\n")
-  inject_into_class('app/models/board.rb', 'Board',  "  has_many :lists\n")
+  inject_into_class('app/models/task.rb',  'Task', TASK_CLASS_INJECTION)
+  inject_into_class('app/models/list.rb',  'List', LIST_CLASS_INJECTION)
+  inject_into_class('app/models/board.rb', 'Board', BOARD_CLASS_INJECTION)
 end
 
 def install_files
   copy_file("files/db/seeds.rb", 'db/seeds.rb', force: true)
-  copy_file('files/app/assets/stylesheets/pages.css', 'app/assets/stylesheets/pages.css')
-  copy_file('files/app/controllers/pages_controller.rb', 'app/controllers/pages_controller.rb')
-  directory('files/app/views/pages', 'app/views/pages')
+  copy_file('files/app/assets/stylesheets/boards.css', 'app/assets/stylesheets/boards.css')
+  copy_file('files/app/controllers/boards_controller.rb', 'app/controllers/boards_controller.rb')
+  directory('files/app/views/boards', 'app/views/boards')
+  copy_file('files/config/routes.rb', 'config/routes.rb', force: true)
 end
 
 def initialize_db
@@ -73,27 +98,18 @@ def initialize_db
   rails_command "db:seed"
 end
 
+def install_gems
+  gem_group :development do
+    gem 'pry-byebug'
+    gem 'better_errors'
+  end
+end
+
 
 add_template_repository_to_source_path
 generate_scaffold
 install_files
+install_gems
 initialize_db
-route "root to: 'pages#index'"
 
-# Board:
-#    List:
-#       Task:
-#          Step:
-#          Step:
-#          Step:
-#       Task:
-#          Step:
-#          Step:
-#    List:
-#       Task:
-#          Step:
-#          Step:
-#          Step:
-#       Task:
-#          Step:
-#          Step:
+

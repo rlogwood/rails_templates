@@ -1,0 +1,106 @@
+.board {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.board-name {
+    display: inline;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.board-description {
+    display: inline;
+    font-size: .75rem;
+    font-weight: normal;
+}
+
+.list {
+    padding: 10px;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    margin-bottom: 10px;
+}
+
+.list-name {
+    display:inline;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+
+.task {
+    margin: 10px;
+    background-color: #EFEFEF;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.task-summary {
+    /*display:inline;*/
+    font-size: 1.2rem;
+}
+
+.task-description {
+    display:inline;
+    font-size: 0.65rem;
+    font-style: italic;
+}
+
+.step {
+}
+
+.step-description {
+    /*display:inline;*/
+    font-size: 0.9rem;
+    display: list-item;          /* This has to be "list-item"                                               */
+    list-style-type: disc;       /* See https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type     */
+    list-style-position: inside;
+
+}
+
+.nav-link {
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    background-color: greenyellow;
+    font-size: .75rem;
+}
+
+.board-edit-heading {
+    margin: 10px;
+}
+
+.list-edit {
+    margin-bottom: 10px;
+    background-color: #DADADA;
+    padding: 10px;
+    list-style: none;
+    border-radius: 5px;
+}
+
+.tasks-edit {
+    padding: 10px;
+}
+.task-edit {
+    padding: 10px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.task-description {
+    width: 300px;
+}
+
+.small-label {
+    font-size: 0.65rem;
+}
+
+.step-order {
+    width: 20px;
+    font-size: 0.7rem;
+}

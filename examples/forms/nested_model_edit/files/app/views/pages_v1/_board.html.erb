@@ -1,9 +1,0 @@
-<div class="board">
-  <div class="board-name">
-    <%= board.name %>
-  </div>
-
-  <% board.lists.each do |list| %>
-    <%= render partial: 'list', locals: { list: list } %>
-  <% end %>
-</div>
