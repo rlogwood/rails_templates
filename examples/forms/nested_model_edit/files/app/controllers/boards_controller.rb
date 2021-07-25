@@ -10,6 +10,8 @@ class BoardsController < ApplicationController
   end
 
   def new
+    @board = Board.new
+    render locals: { board: @board }
   end
 
   def edit

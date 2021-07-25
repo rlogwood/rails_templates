@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root to: 'boards#index'
-  get  '/boards/:id/edit', to: 'boards#edit', as: 'edit_board'
+  get '/boards/new', to: 'boards#new', as: 'new_board'
+  get '/boards/:id/edit', to: 'boards#edit', as: 'edit_board'
   get '/boards', to: 'boards#index'
   get '/boards/:id', to: 'boards#show', as: 'board'
   post '/update', to: 'boards#update'

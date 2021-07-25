@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+require_relative '../../../template_helpers/jquery/add_jquery'
+require_relative '../../../template_helpers/code_management/git'
+
+extend TemplateHelpers::JQueryWebpack5
+extend TemplateHelpers::Git
+#include TemplateHelpers::JQueryWebpack5
+
 # Creates an example nested model for testing nested forms
 #
 # Board: [0..N]
@@ -10,17 +17,17 @@
 # uses ActionView Form helper fields_for and ActiveRecord helper accepts_nested_attributes_for
 
 BOARD_CLASS_INJECTION = <<-'RUBY'
-  has_many :lists
+  has_many :lists, dependent: :destroy
   accepts_nested_attributes_for :lists, allow_destroy: true, reject_if: :all_blank
 RUBY
 
 LIST_CLASS_INJECTION = <<-'RUBY'
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
   accepts_nested_attributes_for :tasks, allow_destroy: true, reject_if: :all_blank
 RUBY
 
 TASK_CLASS_INJECTION = <<-'RUBY'
-  has_many :steps
+  has_many :steps, dependent: :destroy
   accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: :all_blank
 RUBY
 
@@ -84,6 +91,7 @@ def install_files
   copy_file("files/db/seeds.rb", 'db/seeds.rb', force: true)
   copy_file('files/app/assets/stylesheets/boards.css', 'app/assets/stylesheets/boards.css')
   copy_file('files/app/controllers/boards_controller.rb', 'app/controllers/boards_controller.rb')
+  copy_file('files/app/helpers/application_helper.rb', 'app/helpers/application_helper.rb', force: true)
   directory('files/app/views/boards', 'app/views/boards')
   copy_file('files/config/routes.rb', 'config/routes.rb', force: true)
 end
@@ -110,6 +118,11 @@ add_template_repository_to_source_path
 generate_scaffold
 install_files
 install_gems
-initialize_db
 
+after_bundle do
+  add_jquery
+  initialize_db
+  update_gitignore
+  perform_initial_commit
+end
 

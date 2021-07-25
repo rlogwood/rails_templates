@@ -64,9 +64,18 @@
     border-radius: 5px;
     border-style: solid;
     border-width: 2px;
-    background-color: greenyellow;
+    background-color: deeppink;
+    color: darkred;
     font-size: .75rem;
+    font-weight: bolder;
+    text-decoration: none;
+    padding: 5px;
 }
+
+.links-container {
+    align-content: space-between;
+}
+
 
 .board-edit-heading {
     margin: 10px;
@@ -103,4 +112,14 @@
 .step-order {
     width: 20px;
     font-size: 0.7rem;
+}
+
+
+.flex-container {
+    display: flex;
+    flex: 100%;
+    flex-direction: row;
+    /*align-content: flex-end;*/
+    justify-content: space-around;
+    flex-basis: auto;
 }
