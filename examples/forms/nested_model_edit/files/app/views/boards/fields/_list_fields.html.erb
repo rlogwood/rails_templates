@@ -5,5 +5,8 @@
       <%= form.text_field :name %>
     </div>
     <%= render partial: 'boards/fields/task_fields', locals: { form: form } %>
+
+    <%= link_to_add_fields('Add Task', form, :tasks) %>
+
   </li>
 </div>

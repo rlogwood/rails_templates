@@ -1,10 +1,14 @@
-# frozen_string_literal: true
-
-# basic functionality that may be used in in more than one template
 module TemplateHelpers
-  # updates for default .gitignore
-  module Git
+  module DevelopmentHelpers
     extend self
+
+    def install_development_gems
+      gem_group :development do
+        gem 'pry-byebug'
+        gem 'better_errors'
+        gem 'binding_of_caller'
+      end
+    end
 
     # don't check-in
     # .idea - RubyMine project files

@@ -1,16 +1,15 @@
 module ApplicationHelper
 
-
-  def link_to_add_fields(name, f, association)
+  def link_to_add_fields(name, form, association)
     ## create a new object from the association
-    new_object = f.object.send(association).klass.new
+    new_object = form.object.send(association).klass.new
 
     ## just create or take the id from the new created object
     id = new_object.object_id
 
     ## create the fields from
-    fields = f.fields_for(association, new_object, child_index: id) do |builder|
-      render(association.to_s.singluarize + "_fields", f: builder)
+    fields = form.fields_for(association, new_object, child_index: id) do |builder|
+      render("fields/#{association.to_s.singularize}_fields", form: builder)
     end
 
     ## pass down the link to the fields form

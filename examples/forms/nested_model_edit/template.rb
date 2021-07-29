@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require_relative '../../../template_helpers/jquery/add_jquery'
-require_relative '../../../template_helpers/code_management/git'
+require_relative '../../../template_helpers/development_helpers'
 
 extend TemplateHelpers::JQueryWebpack5
-extend TemplateHelpers::Git
+extend TemplateHelpers::DevelopmentHelpers
 #include TemplateHelpers::JQueryWebpack5
 
 # Creates an example nested model for testing nested forms
@@ -107,12 +107,8 @@ def initialize_db
 end
 
 def install_gems
-  gem_group :development do
-    gem 'pry-byebug'
-    gem 'better_errors'
-  end
+  install_development_gems
 end
-
 
 add_template_repository_to_source_path
 generate_scaffold
